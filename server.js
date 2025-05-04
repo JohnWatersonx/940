@@ -4,18 +4,25 @@ const axios = require("axios");
 const path = require("path");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000; // Render utilise le port d'environnement
 
-// ✅ Webhook Discord correct
+// ✅ Webhook Discord
 const webhookUrl = "https://discord.com/api/webhooks/1368323896004055081/b5cUk80DW7HofsCl98Yr6jNbI5SP94WRugcD1k9hh5Xu-sBYeH71_0bg6Gq6sg_J4JX3";
 
+// Middlewares
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public"))); // Sert les fichiers HTML/CSS/JS
 
+// 🔘 Page d'accueil
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+// 📩 Traitement du formulaire
 app.post("/depot", async (req, res) => {
     const { nom, prenom, contact, infraction, plainte, preuve } = req.body;
 
-    console.log("Reçu du formulaire :", req.body);
+    console.log("📨 Reçu :", req.body);
 
     const embed = {
         title: "📋 Nouvelle plainte reçue",
@@ -28,7 +35,7 @@ app.post("/depot", async (req, res) => {
             { name: "📝 Plainte", value: plainte || "Non renseignée", inline: false },
             { name: "📎 Preuve", value: preuve || "Non fournie", inline: false }
         ],
-        timestamp: new Date()
+        timestamp: new Date().toISOString()
     };
 
     try {
@@ -36,16 +43,14 @@ app.post("/depot", async (req, res) => {
             embeds: [embed]
         });
 
-        res.send("Plainte envoyée avec succès !");
+        res.send("✅ Plainte envoyée avec succès !");
     } catch (error) {
-        console.error("Erreur Discord :", error.response ? error.response.data : error.message);
-        res.send("Erreur lors de l’envoi de la plainte.");
+        console.error("❌ Erreur Discord :", error.response ? error.response.data : error.message);
+        res.status(500).send("Erreur lors de l’envoi de la plainte.");
     }
 });
 
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
-});
+// 🚀 Démarrage du serveur
 app.listen(PORT, () => {
-    console.log(`Serveur démarré sur le port ${PORT}`);
+    console.log(`✅ Serveur démarré sur le port ${PORT}`);
 });
