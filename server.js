@@ -25,6 +25,8 @@ app.get('/', (req, res) => {
 app.post('/depot', async (req, res) => {
   const { nom, prenom, contact, infraction, plainte, preuve } = req.body;
 
+  console.log("Reçu du formulaire :", req.body);
+
   const embed = {
     title: "📄 Nouveau dépôt de plainte",
     color: 0x3498db,
@@ -49,7 +51,7 @@ app.post('/depot', async (req, res) => {
     await axios.post(webhookUrl, { embeds: [embed] });
     res.redirect('merci.html'); // ✅ Redirige bien vers la bonne page
   } catch (err) {
-    console.error("Erreur Discord :", err);
+    console.error("Erreur Discord :", err.response ? err.response.data : err.message);
     res.status(500).send("Erreur lors de l’envoi de la plainte.");
   }
 });
