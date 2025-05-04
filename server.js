@@ -4,32 +4,37 @@ const axios = require("axios");
 const path = require("path");
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000; // ✅ Compatible avec Render
 
-// Webhook Discord
+// ✅ Webhook Discord
 const webhookUrl = "https://discord.com/api/webhooks/1368323896004055081/b5cUk80DW7HofsCl98Yr6jNbI5SP94WRugcD1k9hh5Xu-sBYeH71_0bg6Gq6sg_J4JX3";
 
-// Middleware
+// ✅ Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Sert les fichiers statiques (HTML, CSS, images, etc.)
-app.use(express.static(__dirname)); // ✅ Sert tous les fichiers depuis la racine
+// ✅ Sert les fichiers du dossier "public"
+app.use(express.static(path.join(__dirname, "public")));
 
-// Route principale
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+// ✅ Route principale
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// Route pour le formulaire
-app.post('/depot', async (req, res) => {
+// ✅ Route vers page de remerciement
+app.get("/merci", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "merci.html"));
+});
+
+// ✅ Route pour le formulaire de dépôt
+app.post("/depot", async (req, res) => {
   const { nom, prenom, contact, infraction, plainte, preuve } = req.body;
 
   const embed = {
     title: "📄 Nouveau dépôt de plainte",
     color: 0x3498db,
     thumbnail: {
-      url: "https://download.logo.wine/logo/National_Gendarmerie/National_Gendarmerie-Logo.wine.png" // Tu peux mettre un lien d'image hébergée ici
+      url: "https://download.logo.wine/logo/National_Gendarmerie/National_Gendarmerie-Logo.wine.png"
     },
     fields: [
       { name: "👤 Nom", value: nom || "Non renseigné", inline: true },
@@ -47,14 +52,14 @@ app.post('/depot', async (req, res) => {
 
   try {
     await axios.post(webhookUrl, { embeds: [embed] });
-    res.redirect('merci.html'); // ✅ Redirige bien vers la bonne page
+    res.redirect("/merci"); // ✅ Doit correspondre à la route GET "/merci"
   } catch (err) {
     console.error("Erreur Discord :", err);
     res.status(500).send("Erreur lors de l’envoi de la plainte.");
   }
 });
 
-// Démarrage du serveur
+// ✅ Lancement du serveur
 app.listen(port, () => {
   console.log(`✅ Serveur actif sur http://localhost:${port}`);
 });
