@@ -43,7 +43,9 @@ app.post("/depot", async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`✅ Serveur actif sur http://localhost:${port}`);
-    console.log("🚨 En attente des plaintes...");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Serveur démarré sur le port ${PORT}`);
 });
+
