@@ -14,11 +14,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Sert les fichiers statiques (HTML, CSS, images, etc.)
-app.use(express.static(__dirname)); // ✅ Sert tous les fichiers depuis la racine
+app.use(express.static(path.join(__dirname, 'public'))); // ✅ Sert tous les fichiers depuis la racine
 
 // Route principale
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Route pour le formulaire
