@@ -48,7 +48,7 @@ app.post('/depot', async (req, res) => {
   };
 
   try {
-    await axios.post(webhookUrl, { embeds: [embed] });
+    const response = await axios.post(webhookUrl, { embeds: [embed] }); console.log("Réponse Discord :", response.data);
     res.redirect('merci.html'); // ✅ Redirige bien vers la bonne page
   } catch (err) {
     console.error("Erreur Discord :", err.response ? err.response.data : err.message);
