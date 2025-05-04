@@ -4,7 +4,7 @@ const axios = require("axios");
 const path = require("path");
 
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 // ✅ Webhook Discord correct
 const webhookUrl = "https://discord.com/api/webhooks/1368323896004055081/b5cUk80DW7HofsCl98Yr6jNbI5SP94WRugcD1k9hh5Xu-sBYeH71_0bg6Gq6sg_J4JX3";
@@ -43,9 +43,6 @@ app.post("/depot", async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, () => {
-  console.log(`Serveur démarré sur le port ${PORT}`);
+    console.log(`Serveur démarré sur le port ${PORT}`);
 });
-
