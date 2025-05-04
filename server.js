@@ -4,7 +4,7 @@ const axios = require("axios");
 const path = require("path");
 
 const app = express();
-const port = process.env.PORT || 3000; // ✅ Compatible avec Render
+const port = process.env.PORT || 10000; // ✅ Compatible avec Render
 
 // ✅ Webhook Discord
 const webhookUrl = "https://discord.com/api/webhooks/1368323896004055081/b5cUk80DW7HofsCl98Yr6jNbI5SP94WRugcD1k9hh5Xu-sBYeH71_0bg6Gq6sg_J4JX3";
