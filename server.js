@@ -7,7 +7,7 @@ const app = express();
 const port = process.env.PORT || 10000; // ✅ Compatible avec Render
 
 // ✅ Webhook Discord
-const webhookUrl = "https://discord.com/api/webhooks/1368323896004055081/b5cUk80DW7HofsCl98Yr6jNbI5SP94WRugcD1k9hh5Xu-sBYeH71_0bg6Gq6sg_J4JX3";
+const webhookUrl = "https://discord.com/api/webhooks/1368668410103201983/AzeT8EN19DfxK-u_HhhahiGYp0QR0loFBNoDCjm90PTpDvR0i5d6gtNrvBBk0o3irApW";
 
 // ✅ Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
